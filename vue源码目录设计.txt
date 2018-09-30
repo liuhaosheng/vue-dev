@@ -1,0 +1,36 @@
+
+
+vue 源码目录设计 
+https://ustbhuangyi.github.io/vue-analysis/prepare/build.html#构建脚本
+vue 的源码都在src 目录下：
+  compiler   # 编译相关
+  core       # 核心代码 
+  platforms  # 不同平台的支持 
+  server     # 服务端解析 
+  shared     # 共享代码
+       
+  compoler
+  compiler 目录包含 vue.js 所有编译相关的代码。它包括把模版解析成
+  ast语法树（抽象语法树），ast语法树优化，代码生成等功能。
+            
+  编译的工作可以在构建时做（借助 webpack vue-loader等插件 ）也可以在
+  运行时做，使用包含构建功能的 vue.js。显然，编译是一项耗性能的工作，
+  所以更推荐前者--- 离线编译。
+
+  core
+  core 目录包含vue 的核心代码。包括内置组件，全局API封装，vue实例化，观察者，虚拟DOM，工具函数等。
+  这里面的代码是 vue 灵魂。
+
+  platform
+  vue 是一个跨平台的 mvvm 框架。它可以跑在 web上，也可以配置 weex，跑在native客户端上面。
+  platform 是vue 的入口，2个目录代表2个主要入口，分别打包运行在 web 和 weex 上的vue。
+
+  server
+  vue 2.0支持服务端渲染，所有服务端渲染相关的逻辑都在这个目录下。
+
+  sfc
+  vue都会借助 webpack 构建，然后通过 .vue 单文件大的编写组件。
+  这个目录下的代码逻辑会把 .vue 文件的东西解析成一个 js 的对象。
+
+  shared 
+  vue 会定义一些工具方法，在这里定义的工具方法都是会被浏览器端的 vue.js 和 服务端的 vue.js所共享的。
