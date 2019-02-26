@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Vue 基本概念 </title>
+</head>
+
+<body>
+    <h2> 1. MVVM 开发模式的理解？</h2>
+    <p> Model 代表数据模型，数据和业务逻辑都在 Model层中 </p>
+    <p> View 代表UI 视图，负责数据的展示 </p>
+    <p> ViewModel 就是监听 Modal中数据改变并且控制视图的更新，处理用户交互操作 </p>
+    <p> Model 和 View 无直接关联，通过ViewModal 来进行联系的，所以Modal 中的数据改变也会触发 View 层刷新 </p>
+    <p> 这种模式实现了 View 和 Modal 的数据自动同步 </p>
+
+    <h2> 2. Vue 的响应式原理？ </h2>
+    <p>
+        当vue 实例创建时，vue 会遍历 data选项，用 Object.defineProperty 将它们转为 getter/setter
+        并且在内部追踪相关依赖，在属性被访问和修改时通知变化。
+    </p>
+    <p>
+        每一个组件都有自己的 watcher 实例，它会在组件渲染过程中把属性记录为依赖，之后当依赖项的 setter
+        被调用时，会通知 watcher 重新计算，从而使组件更新。
+    </p>
+
+    <h2> 3. Vue 中如何监控某个属性值的变化？ </h2>
+    <p> watch 或者 computed </p>
+    <p> watch 中的 immediate 和 handler watch 第一次绑定不需要执行监听函数，只有发生改变才会执行
+        如果要在最初的时候执行函数，那么就需要 immediate 。
+    </p>
+    <p> deep 监听一个对象的改变，普通的 wacth 监听不到 对象内部变化，deep 可以进行深度监听。</p>
+
+    <h2> delete 和 vue.delete 到区别？ </h2>
+    <p> delete 只是被删除的元素变成了 undefined 键值不变 </p>
+    <p> vue.delete 改变了数字的健值 </p>
+</body>
+
+</html>
+<script>
+    Object.defineProperty
+    // 3. Vue 中如何监控某个属性值的变化
+    obj: {
+        a = 1,
+        b = 2,
+        c = 3
+    }
+    // 一
+    // watch:{    
+    //    ' obj.a':{
+    //     handler(new, old){
+    //         console.log('obj.a')
+    //     }
+    //     }
+    // }
+
+    // 二 监听对象，深度监听
+    // watch:{    
+    //    obj:{
+    //     handler(new, old){
+    //         console.log('obj.a')
+    //     }
+    //     },
+    // deep:true
+    // }
+
+    //  三 watch 和 computed
+    // watch: {
+    //     newValue(val, oldVal) {
+    //         console.log("b.c: " + val, oldVal);
+    //        }
+    // },
+    //  computed: {
+    //     newValue() {
+    //        return this.b.c
+    //     }
+    // }
+</script>
