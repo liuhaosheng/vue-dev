@@ -18,7 +18,9 @@
 
     <h2> 2. Vue 的响应式原理？ </h2>
     <p>
-        当vue 实例创建时，vue 会遍历 data选项，用 Object.defineProperty 将它们转为 getter/setter
+        当vue 实例创建时，vue 会遍历 data选项，
+        采用数据劫持结合发布者-订阅者模式的方式，
+        用 Object.defineProperty 将它们转为 getter/setter
         并且在内部追踪相关依赖，在属性被访问和修改时通知变化。
     </p>
     <p>
@@ -36,6 +38,39 @@
     <h2> delete 和 vue.delete 到区别？ </h2>
     <p> delete 只是被删除的元素变成了 undefined 键值不变 </p>
     <p> vue.delete 改变了数字的健值 </p>
+
+    <h2> 4. vue 的生命周期？</h2>
+    <ul>
+        <li> beforeCreate 创建前 </li>
+        <li> created 创建后 </li>
+        <li> beforeMount 载入前</li>
+        <li> mounted 载入后 </li>
+        <li> beforeUpdate 更新前 </li>
+        <li> updated 更新后 </li>
+        <li>beforeDestory 销毁前</li>
+        <li> destroyed 销毁后 </li>
+    </ul>
+
+    <h2> 5. vuex 是什么？ 使用场景？</h2>
+    <p> 只用来读取的状态集放在store中，改变状态的方式是提交 mutations，异步逻辑应该封装到 action里面 </p>
+    <p> state：Vuex使用单一状态树，每一个应用对应一个 store实例，不可以直接修改里面的数据。</p>
+    <p> mutations： 动态修改 Vuex 的store 中的数据。</p>
+    <p> getters： 类似Vue 的计算属性，过滤数据。</p>
+    <p> action： 将mutations 里面的数据方法改变成异步的处理数据方法，就是异步操作数据。</p>
+    <p> modules： 让每一个模块拥有自己的state、mutation、action、getters,使得结构非常清晰，方便管理。</p>
+
+    <h2> 6. vue 如何新增自定义指令？ js里面写着 </h2>
+
+    <h2> 7. keep-alive 是什么？ </h2>
+    <p> keep-alive 是vue 内置的一个组件，可以被包含的组件保留状态，避免重新渲染。 </p>
+    <p> include - 字符串或正则表达式，只有名称匹配的组件会被缓存 </p>
+    <p> exclude - 字符串或正则表达式，任何名称匹配的组件都不会被缓存 </p>
+    <p> 当使用正则或者是数组时，要记得使用v-bind 。</p>
+    <keep-alive include='include_components' exclude='exclude_components'>
+        <component>
+            <!-- 该组件是否缓存取决于include和exclude属性 -->
+        </component>
+    </keep-alive>
 </body>
 
 </html>
@@ -77,4 +112,31 @@
     //        return this.b.c
     //     }
     // }
+
+    //  6.vue 如何新增自定义指令？
+    var app = new Vue({
+        el: '#app',
+        data: {},
+        // 创建指令(可以多个) 局部指令 
+        directives: {
+            // 指令名称
+            dir1: {
+                inserted(el) {
+                    // 指令中第一个参数是当前使用指令的DOM
+                    console.log(el);
+                    console.log(arguments);
+                    // 对DOM进行操作
+                    el.style.width = '200px';
+                    el.style.height = '200px';
+                    el.style.background = '#000';
+                }
+            }
+        }
+    })
+    // 全局指令
+    Vue.directive('dir2', {
+        inserted(el) {
+            console.log(el);
+        }
+    })
 </script>
